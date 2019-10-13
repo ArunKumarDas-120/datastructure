@@ -3,6 +3,7 @@ package com.data.tree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Stack;
 
 abstract class BaseTree<T> implements Tree<T> {
@@ -85,6 +86,33 @@ abstract class BaseTree<T> implements Tree<T> {
 				}
 			}
 		}
+		return result;
+	}
+
+	@Override
+	public boolean contains(T data) {
+		return search(data).isPresent();
+	}
+
+	@Override
+	public Optional<T> search(T data) {
+		Optional<T> result = Optional.ofNullable(null);
+		if (!isEmpty()) {
+			Node<T> currentNode = this.root;
+			Node<T> searchedNode = new Node<>(data);
+			while (Objects.nonNull(currentNode)) {
+				if (currentNode.equals(searchedNode)) {
+					result = Optional.ofNullable(data);
+					currentNode = null;
+				} else {
+					if (searchedNode.hashCode() < currentNode.hashCode())
+						currentNode = currentNode.getLeft();
+					else if (searchedNode.hashCode() > currentNode.hashCode())
+						currentNode = currentNode.getRight();
+				}
+			}
+		}
+
 		return result;
 	}
 

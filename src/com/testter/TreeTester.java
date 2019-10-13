@@ -14,7 +14,8 @@ public class TreeTester {
 		tree.insert(2);
 		tree.insert(9);
 		tree.insert(7);
-		tree.traversePostOrder().forEach(d -> System.out.print(d + " "));
+		tree.traversePostOrder().forEach(e -> System.out.print(e + " "));
+		
 	}
 
 }

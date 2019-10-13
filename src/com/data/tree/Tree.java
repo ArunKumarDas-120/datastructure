@@ -1,6 +1,7 @@
 package com.data.tree;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Tree<T> {
 
@@ -13,4 +14,8 @@ public interface Tree<T> {
 	public List<T> traversePostOrder();
 
 	public boolean isEmpty();
+	
+	public boolean contains(T data);
+	
+	public Optional<T> search(T data);
 }
