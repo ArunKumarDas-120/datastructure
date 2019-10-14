@@ -8,4 +8,9 @@ public class AVLTree<T> extends BaseTree<T> {
 
 	}
 
+	@Override
+	public boolean remove(T data) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -18,4 +18,6 @@ public interface Tree<T> {
 	public boolean contains(T data);
 	
 	public Optional<T> search(T data);
+	
+	public boolean remove(T data);
 }
