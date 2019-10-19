@@ -7,13 +7,23 @@ public class TreeTester {
 
 	public static void main(String[] args) {
 		Tree<Integer> tree = new BinarySearchTree<>();
-		tree.insert(5);
-		tree.insert(3);
-		tree.insert(8);
-		tree.insert(4);
-		tree.insert(2);
-		tree.insert(9);
-		tree.insert(7);
+		tree.insert(60);
+		tree.insert(50);
+		tree.insert(70);
+		tree.insert(30);
+		tree.insert(55);
+		tree.insert(65);
+		tree.insert(80);
+		tree.insert(20);
+		tree.insert(31);
+		tree.insert(52);
+		tree.insert(51);
+		tree.insert(57);
+		tree.insert(63);
+		tree.insert(66);
+		tree.insert(75);
+		tree.insert(81);
+		tree.remove(50);
 		tree.traversePostOrder().forEach(e -> System.out.print(e + " "));
 		
 	}

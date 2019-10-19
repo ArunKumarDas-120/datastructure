@@ -120,6 +120,10 @@ abstract class BaseTree<T> implements Tree<T> {
 		return (Objects.isNull(node.getLeft()) && Objects.isNull(node.getRight()));
 	}
 
+	boolean isRootNode(Node<T> node) {
+		return (Objects.nonNull(node.getLeft()) && Objects.nonNull(node.getRight()));
+	}
+
 	final Node<T> getRoot() {
 		return this.root;
 	}

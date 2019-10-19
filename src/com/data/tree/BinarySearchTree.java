@@ -58,9 +58,23 @@ public class BinarySearchTree<T> extends BaseTree<T> {
 						}
 					} else {/* Removing Non Leaf Nodes */
 
-						if (Objects.nonNull(currentNode.getLeft())
-								&& Objects.nonNull(currentNode.getRight())) {/* Removing Node with two child */
-
+						if (isRootNode(currentNode)) {/* Removing Node with two child */
+							if (Objects.nonNull(currentNode.getRight().getLeft())) {/* With left node */
+								previousNode = currentNode.getRight();
+								Node<T> minValueNode = currentNode.getRight().getLeft();
+								while (Objects.nonNull(minValueNode.getLeft())) {
+									previousNode = minValueNode;
+									minValueNode = minValueNode.getLeft();
+								}
+								currentNode.setData(minValueNode.getData());
+								previousNode.setLeft(isLeafNode(minValueNode) ? null : minValueNode.getRight());
+								result = true;
+							} else {/* Leaf node or empty left node */
+								currentNode.setData(currentNode.getRight().getData());
+								currentNode.setRight(
+										isLeafNode(currentNode.getRight()) ? null : currentNode.getRight().getRight());
+								result = true;
+							}
 						} else {/* Removing Node with single child */
 							if (Objects.nonNull(previousNode) && Objects.nonNull(previousNode.getLeft())
 									&& previousNode.getLeft().equals(nodeToRemove)) {
