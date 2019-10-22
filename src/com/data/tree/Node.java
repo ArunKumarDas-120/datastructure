@@ -11,7 +11,7 @@ final class Node<T> {
 		this.data = data;
 		this.left = null;
 		this.right = null;
-		this.height = 0;
+		this.height = 1;
 	}
 
 	protected T getData() {
