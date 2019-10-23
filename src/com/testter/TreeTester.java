@@ -35,18 +35,13 @@ public class TreeTester {
 
 	private static void avl() {
 		Tree<Integer> tree = new AVLTree<>();
-		tree.insert(60);
-		tree.insert(50);
-		tree.insert(70);
-		tree.insert(30);
-		tree.insert(52);
-		tree.insert(65);
-		tree.insert(80);
-		tree.insert(20);
-		tree.insert(31);
-		tree.insert(55);
-		tree.insert(54);
-		tree.insert(53);
+		tree.insert(12);
+		tree.insert(11);
+		tree.insert(17);
+		tree.insert(19);
+		tree.insert(18);
+		tree.insert(7);
+		tree.insert(10);
 		tree.traversePreOrder().forEach(e -> System.out.print(e + " "));
 	}
 

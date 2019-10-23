@@ -37,42 +37,70 @@ public class AVLTree<T> extends BaseTree<T> {
 				}
 			}
 
-			while (!ancestors.isEmpty()) {
-				Node<T> temp = ancestors.pop();
-				updateHeight(temp);
-				int balanceFactor = getBalanceFactor(temp);
-				if (balanceFactor > 1 && Objects.nonNull(temp.getLeft())) {
-					if (newNode.hashCode() < temp.getLeft().hashCode()) {
-						if (ancestors.isEmpty()) 
-							setRoot(rotateRight(temp));
-						 else 
-							ancestors.pop().setRight(rotateRight(temp));
-					} else if (newNode.hashCode() > temp.getLeft().hashCode()) {
-						temp.setLeft(rotateLeft(temp.getLeft()));
-						if (ancestors.isEmpty())
-							setRoot(rotateRight(temp));
-						else
-							ancestors.pop().setRight(rotateRight(temp));
-					}
-				}
-				if (balanceFactor < -1 && Objects.nonNull(temp.getRight())) {
-					if (newNode.hashCode() > temp.getRight().hashCode()) {
-						if (ancestors.isEmpty())
-							setRoot(rotateLeft(temp));
-						else
-							ancestors.pop().setRight(rotateLeft(temp));
-					} else if (newNode.hashCode() < temp.getRight().hashCode()) {
-						temp.setRight(rotateRight(temp.getRight()));
-						if (ancestors.isEmpty())
-							setRoot(rotateLeft(temp));
-						else
-							ancestors.pop().setRight(rotateLeft(temp));
-					}
-				}
-
-			}
+			rebalance(newNode, ancestors);
 		}
 
+	}
+
+	/* Rebalancing the tree */
+	private void rebalance(Node<T> newlyInsertedNode, Stack<Node<T>> ancestors) {
+		while (!ancestors.isEmpty()) {
+			Node<T> temp = ancestors.pop();
+			updateHeight(temp);
+			int balanceFactor = getBalanceFactor(temp);
+			/* Left heavy */
+			if (balanceFactor > 1 && Objects.nonNull(temp.getLeft())) {
+				if (newlyInsertedNode.hashCode() < temp.getLeft().hashCode()) {
+					if (ancestors.isEmpty())
+						setRoot(rotateRight(temp));
+					else {
+						Node<T> temp1 = ancestors.pop();
+						if (Objects.nonNull(temp1.getRight()) && temp1.getRight().equals(temp))
+							temp1.setRight(rotateRight(temp));
+						else
+							temp1.setLeft(rotateRight(temp));
+					}
+
+				} else if (newlyInsertedNode.hashCode() > temp.getLeft().hashCode()) {
+					temp.setLeft(rotateLeft(temp.getLeft()));
+					if (ancestors.isEmpty())
+						setRoot(rotateRight(temp));
+					else {
+						Node<T> temp1 = ancestors.pop();
+						if (Objects.nonNull(temp1.getRight()) && temp1.getRight().equals(temp))
+							temp1.setRight(rotateRight(temp));
+						else
+							temp1.setLeft(rotateRight(temp));
+					}
+				}
+			}
+			/* Right heavy */
+			if (balanceFactor < -1 && Objects.nonNull(temp.getRight())) {
+				if (newlyInsertedNode.hashCode() > temp.getRight().hashCode()) {
+					if (ancestors.isEmpty())
+						setRoot(rotateLeft(temp));
+					else {
+						Node<T> temp1 = ancestors.pop();
+						if (Objects.nonNull(temp1.getRight()) && temp1.getRight().equals(temp))
+							temp1.setRight(rotateLeft(temp));
+						else
+							temp1.setLeft(rotateLeft(temp));
+					}
+				} else if (newlyInsertedNode.hashCode() < temp.getRight().hashCode()) {
+					temp.setRight(rotateRight(temp.getRight()));
+					if (ancestors.isEmpty())
+						setRoot(rotateLeft(temp));
+					else {
+						Node<T> temp1 = ancestors.pop();
+						if (Objects.nonNull(temp1.getRight()) && temp1.getRight().equals(temp))
+							temp1.setRight(rotateLeft(temp));
+						else
+							temp1.setLeft(rotateLeft(temp));
+					}
+				}
+			}
+
+		}
 	}
 
 	@Override
@@ -114,4 +142,5 @@ public class AVLTree<T> extends BaseTree<T> {
 		updateHeight(n1);
 		return n1;
 	}
+
 }
