@@ -1,5 +1,6 @@
 package com.data.tree;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -37,20 +38,26 @@ public class AVLTree<T> extends BaseTree<T> {
 				}
 			}
 
-			rebalance(newNode, ancestors);
+			rebalance(newNode, ancestors, false);
 		}
 
 	}
 
+	@Override
+	public void insert(List<T> data) {
+		data.forEach(d -> insert(d));
+	}
+
 	/* Rebalancing the tree */
-	private void rebalance(Node<T> newlyInsertedNode, Stack<Node<T>> ancestors) {
+	private void rebalance(Node<T> newlyInsertedNode, Stack<Node<T>> ancestors, boolean rebalanceOnDelete) {
 		while (!ancestors.isEmpty()) {
 			Node<T> temp = ancestors.pop();
 			updateHeight(temp);
 			int balanceFactor = getBalanceFactor(temp);
 			/* Left heavy */
-			if (balanceFactor > 1 && Objects.nonNull(temp.getLeft())) {
-				if (newlyInsertedNode.hashCode() < temp.getLeft().hashCode()) {
+			if (balanceFactor > 1) {
+				if (rebalanceOnDelete ? getBalanceFactor(temp.getLeft()) >= 0
+						: newlyInsertedNode.hashCode() < temp.getLeft().hashCode()) {
 					if (ancestors.isEmpty())
 						setRoot(rotateRight(temp));
 					else {
@@ -61,7 +68,8 @@ public class AVLTree<T> extends BaseTree<T> {
 							temp1.setLeft(rotateRight(temp));
 					}
 
-				} else if (newlyInsertedNode.hashCode() > temp.getLeft().hashCode()) {
+				} else if (rebalanceOnDelete ? getBalanceFactor(temp.getLeft()) < 0
+						: newlyInsertedNode.hashCode() > temp.getLeft().hashCode()) {
 					temp.setLeft(rotateLeft(temp.getLeft()));
 					if (ancestors.isEmpty())
 						setRoot(rotateRight(temp));
@@ -75,8 +83,9 @@ public class AVLTree<T> extends BaseTree<T> {
 				}
 			}
 			/* Right heavy */
-			if (balanceFactor < -1 && Objects.nonNull(temp.getRight())) {
-				if (newlyInsertedNode.hashCode() > temp.getRight().hashCode()) {
+			if (balanceFactor < -1) {
+				if (rebalanceOnDelete ? getBalanceFactor(temp.getRight()) <= 0
+						: newlyInsertedNode.hashCode() > temp.getRight().hashCode()) {
 					if (ancestors.isEmpty())
 						setRoot(rotateLeft(temp));
 					else {
@@ -86,7 +95,8 @@ public class AVLTree<T> extends BaseTree<T> {
 						else
 							temp1.setLeft(rotateLeft(temp));
 					}
-				} else if (newlyInsertedNode.hashCode() < temp.getRight().hashCode()) {
+				} else if (rebalanceOnDelete ? getBalanceFactor(temp.getRight()) > 0
+						: newlyInsertedNode.hashCode() < temp.getRight().hashCode()) {
 					temp.setRight(rotateRight(temp.getRight()));
 					if (ancestors.isEmpty())
 						setRoot(rotateLeft(temp));
@@ -105,8 +115,10 @@ public class AVLTree<T> extends BaseTree<T> {
 
 	@Override
 	public boolean remove(T data) {
-		// TODO Auto-generated method stub
-		return false;
+		Stack<Node<T>> ancestors = new Stack<>();
+		boolean result = deleteNode(new Node<>(data), ancestors);
+		rebalance(null, ancestors, true);
+		return result;
 	}
 
 	/* Updating height of Node */

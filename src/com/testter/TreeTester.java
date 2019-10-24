@@ -1,5 +1,7 @@
 package com.testter;
 
+import java.util.Arrays;
+
 import com.data.tree.AVLTree;
 import com.data.tree.BinarySearchTree;
 import com.data.tree.Tree;
@@ -7,41 +9,26 @@ import com.data.tree.Tree;
 public class TreeTester {
 
 	public static void main(String[] args) {
-		// binarySearch();
-		avl();
+		 binarySearch();
+		//avl();
 	}
 
 	private static void binarySearch() {
 		Tree<Integer> tree = new BinarySearchTree<>();
-		tree.insert(60);
-		tree.insert(50);
-		tree.insert(70);
-		tree.insert(30);
-		tree.insert(55);
-		tree.insert(65);
-		tree.insert(80);
-		tree.insert(20);
-		tree.insert(31);
-		tree.insert(52);
-		tree.insert(51);
-		tree.insert(57);
-		tree.insert(63);
-		tree.insert(66);
-		tree.insert(75);
-		tree.insert(81);
-		tree.remove(50);
-		tree.traversePostOrder().forEach(e -> System.out.print(e + " "));
+		tree.insert(Arrays.asList(9,1,16,0,12,17,11,13));
+		tree.remove(1);
+		tree.traversePreOrder().forEach(e -> System.out.print(e + " "));
 	}
 
 	private static void avl() {
 		Tree<Integer> tree = new AVLTree<>();
-		tree.insert(12);
-		tree.insert(11);
-		tree.insert(17);
-		tree.insert(19);
-		tree.insert(18);
-		tree.insert(7);
-		tree.insert(10);
+		/*
+		 * tree.insert(9); tree.insert(1); tree.insert(10); tree.insert(11);
+		 * tree.insert(0); tree.insert(5); tree.insert(2); tree.insert(6);
+		 * tree.remove(10);
+		 */
+		tree.insert(Arrays.asList(9,1,16,0,12,17,11,13));
+		tree.remove(1);
 		tree.traversePreOrder().forEach(e -> System.out.print(e + " "));
 	}
 

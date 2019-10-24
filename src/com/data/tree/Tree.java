@@ -6,6 +6,8 @@ import java.util.Optional;
 public interface Tree<T> {
 
 	public void insert(T data);
+	
+	public void insert(List<T> data);
 
 	public List<T> traverseInOrder();
 
