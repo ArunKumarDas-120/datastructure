@@ -14,6 +14,8 @@ public interface Tree<T> {
 	public List<T> traversePreOrder();
 
 	public List<T> traversePostOrder();
+	
+	public List<T> traverseLevelOrder();
 
 	public boolean isEmpty();
 	

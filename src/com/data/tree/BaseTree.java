@@ -1,9 +1,11 @@
 package com.data.tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Stack;
 
 abstract class BaseTree<T> implements Tree<T> {
@@ -84,6 +86,26 @@ abstract class BaseTree<T> implements Tree<T> {
 				if (Objects.nonNull(data.getLeft()) && !data.getLeft().equals(previousNode)) {
 					currentNode = data.getLeft();
 				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<T> traverseLevelOrder() {
+		List<T> result = null;
+		if (!isEmpty()) {
+			Queue<Node<T>> levleNodes = new LinkedList<>();
+			levleNodes.add(root);
+			result = new ArrayList<>();
+			Node<T> tempNode = null;
+			while (!levleNodes.isEmpty()) {
+				tempNode = levleNodes.poll();
+				result.add(tempNode.getData());
+				if (Objects.nonNull(tempNode.getLeft()))
+					levleNodes.add(tempNode.getLeft());
+				if (Objects.nonNull(tempNode.getRight()))
+					levleNodes.add(tempNode.getRight());
 			}
 		}
 		return result;

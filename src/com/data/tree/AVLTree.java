@@ -117,7 +117,8 @@ public class AVLTree<T> extends BaseTree<T> {
 	public boolean remove(T data) {
 		Stack<Node<T>> ancestors = new Stack<>();
 		boolean result = deleteNode(new Node<>(data), ancestors);
-		rebalance(null, ancestors, true);
+		if (result)
+			rebalance(null, ancestors, true);
 		return result;
 	}
 
